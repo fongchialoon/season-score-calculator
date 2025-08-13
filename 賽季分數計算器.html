@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>賽季分數計算器</title>
+<style>
+  body { font-family: Arial; margin: 20px; }
+  .section { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+  .section h3 { margin-top: 0; }
+</style>
+</head>
+<body>
+<h2>賽季分數計算器</h2>
+<div class="section">
+  <h3>角色等級</h3>
+  <input type="number" id="charLevel" placeholder="角色等級"> <span id="charScore">0</span> 分
+</div>
+<div class="section">
+  <h3>裝備等級</h3>
+  武器: <input type="number" id="eqWeapon"><br>
+  副手: <input type="number" id="eqOffhand"><br>
+  頭盔: <input type="number" id="eqHelmet"><br>
+  鎧甲: <input type="number" id="eqArmor"><br>
+  戰靴: <input type="number" id="eqBoots"><br>
+  小計: <span id="equipScore">0</span> 分
+</div>
+<div class="section">
+  <h3>技能等級</h3>
+  <b>戰技</b><br>
+  戰技1: <input type="number" id="sk1"><br>
+  戰技2: <input type="number" id="sk2"><br>
+  戰技3: <input type="number" id="sk3"><br>
+  戰技4: <input type="number" id="sk4"><br>
+  <b>秘法</b><br>
+  秘法1: <input type="number" id="sk5"><br>
+  秘法2: <input type="number" id="sk6"><br>
+  秘法3: <input type="number" id="sk7"><br>
+  秘法4: <input type="number" id="sk8"><br>
+  小計: <span id="skillScore">0</span> 分
+</div>
+<div class="section">
+  <h3>幻獸等級</h3>
+  幻獸1: <input type="number" id="pet1"><br>
+  幻獸2: <input type="number" id="pet2"><br>
+  幻獸3: <input type="number" id="pet3"><br>
+  幻獸4: <input type="number" id="pet4"><br>
+  小計: <span id="petScore">0</span> 分
+</div>
+<div class="section">
+  <h3>古遺物等級</h3>
+  <b>暗</b><br>
+  暗1: <input type="number" id="rDark1"><br>
+  暗2: <input type="number" id="rDark2"><br>
+  暗3: <input type="number" id="rDark3"><br>
+  暗4: <input type="number" id="rDark4"><br>
+  <b>光</b><br>
+  光1: <input type="number" id="rLight1"><br>
+  光2: <input type="number" id="rLight2"><br>
+  光3: <input type="number" id="rLight3"><br>
+  光4: <input type="number" id="rLight4"><br>
+  <b>風</b><br>
+  風1: <input type="number" id="rWind1"><br>
+  風2: <input type="number" id="rWind2"><br>
+  風3: <input type="number" id="rWind3"><br>
+  風4: <input type="number" id="rWind4"><br>
+  <b>水</b><br>
+  水1: <input type="number" id="rWater1"><br>
+  水2: <input type="number" id="rWater2"><br>
+  水3: <input type="number" id="rWater3"><br>
+  水4: <input type="number" id="rWater4"><br>
+  <b>火</b><br>
+  火1: <input type="number" id="rFire1"><br>
+  火2: <input type="number" id="rFire2"><br>
+  火3: <input type="number" id="rFire3"><br>
+  火4: <input type="number" id="rFire4"><br>
+  小計: <span id="relicScore">0</span> 分
+</div>
+<h3>總分: <span id="totalScore">0</span> 分</h3>
+<h3>原初之星: <span id="stars">10</span> 顆</h3>
+<script>
+function calc() {
+  let char = Math.max(0, document.getElementById('charLevel').value - 100) * 100;
+  document.getElementById('charScore').innerText = char;
+
+  let equip = ['eqWeapon','eqOffhand','eqHelmet','eqArmor','eqBoots']
+    .map(id => Math.max(0, document.getElementById(id).value - 100) * 38)
+    .reduce((a,b) => a+b, 0);
+  document.getElementById('equipScore').innerText = equip;
+
+  let skill = ['sk1','sk2','sk3','sk4','sk5','sk6','sk7','sk8']
+    .map(id => Math.max(0, document.getElementById(id).value - 100) * 13)
+    .reduce((a,b) => a+b, 0);
+  document.getElementById('skillScore').innerText = skill;
+
+  let pet = ['pet1','pet2','pet3','pet4']
+    .map(id => Math.max(0, document.getElementById(id).value - 100) * 14)
+    .reduce((a,b) => a+b, 0);
+  document.getElementById('petScore').innerText = pet;
+
+  let relic = ['rDark','rLight','rWind','rWater','rFire']
+    .map(attr => [1,2,3,4].map(n => Math.max(0, document.getElementById(attr+n).value - 10) * 57)
+      .reduce((a,b)=>a+b,0))
+    .reduce((a,b)=>a+b,0);
+  document.getElementById('relicScore').innerText = relic;
+
+  let total = char + equip + skill + pet + relic;
+  document.getElementById('totalScore').innerText = total;
+  document.getElementById('stars').innerText = 10 + Math.floor(total / 100);
+}
+
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+</script>
+</body>
+</html>
